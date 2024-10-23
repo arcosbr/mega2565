@@ -1,0 +1,22 @@
+# Compiled object files
+*.o
+
+# Executable files
+*.elf
+*.hex
+*.bin
+*.out
+
+# Debug files
+*.d
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backup files
+*~
+*.bak
