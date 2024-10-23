@@ -30,6 +30,7 @@ class SerialApp:
         self.serial_port = None
         self.serial_thread = None
         self.is_serial_connected = False
+        self.auto_scroll = tk.BooleanVar(value=True)  # Variable to store checkbox state
 
         # GUI components
         self.create_widgets()
@@ -47,12 +48,12 @@ class SerialApp:
         ttk.Label(config_frame, text="Port:").grid(row=0, column=0, padx=5, pady=5)
         self.port_entry = ttk.Entry(config_frame, width=10)
         self.port_entry.grid(row=0, column=1, padx=5, pady=5)
-        self.port_entry.insert(0, "COM3")  # Default port
+        self.port_entry.insert(0, "COM8")  # Default port
 
         ttk.Label(config_frame, text="Baud Rate:").grid(row=0, column=2, padx=5, pady=5)
         self.baudrate_entry = ttk.Entry(config_frame, width=10)
         self.baudrate_entry.grid(row=0, column=3, padx=5, pady=5)
-        self.baudrate_entry.insert(0, "115200")  # Default baud rate
+        self.baudrate_entry.insert(0, "9600")  # Default baud rate
 
         self.connect_button = ttk.Button(config_frame, text="Connect", command=self.toggle_connection)
         self.connect_button.grid(row=0, column=4, padx=5, pady=5)
@@ -91,8 +92,15 @@ class SerialApp:
         self.write_button = ttk.Button(memory_frame, text="Write Memory", command=self.write_memory, state='disabled')
         self.write_button.grid(row=0, column=5, padx=5, pady=5)
 
-        # Output console
-        self.console = scrolledtext.ScrolledText(self.root, state='disabled', height=15)
+        # Frame for auto-scroll option
+        scroll_frame = ttk.Frame(self.root)
+        scroll_frame.pack(pady=5)
+
+        self.auto_scroll_checkbox = ttk.Checkbutton(scroll_frame, text="Auto Scroll", variable=self.auto_scroll)
+        self.auto_scroll_checkbox.grid(row=0, column=0, padx=5, pady=5)
+
+        # Output console (monospaced font added)
+        self.console = scrolledtext.ScrolledText(self.root, state='disabled', height=15, font=("Courier", 10))
         self.console.pack(fill='both', padx=10, pady=10)
 
     def toggle_connection(self):
@@ -129,7 +137,8 @@ class SerialApp:
         """Logs a message to the console."""
         self.console.config(state='normal')
         self.console.insert(tk.END, message + '\n')
-        self.console.see(tk.END)
+        if self.auto_scroll.get():  # Only scroll if auto-scroll is enabled
+            self.console.see(tk.END)
         self.console.config(state='disabled')
 
     def reset_cpu(self):
