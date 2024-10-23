@@ -4,7 +4,37 @@ This project provides a serial communication interface between a 6502 CPU and an
 
 ## Setup
 
-This example assumes that the 6502's address and data buses are connected to the I/O ports of the ATmega2560. Make sure to adjust the pin assignments according to your hardware setup. The project includes an updated firmware for the ATmega2560 and a Python-based serial communication application.
+This example assumes that the 6502's address and data buses are connected to the I/O ports of the ATmega2560. Make sure to adjust the pin assignments according to your hardware setup.
+
+```
+ATmega2560                 6502
+-----------               ------
+PA7 (A0)  <-------->  D0  (Pin 9)
+PA6 (A1)  <-------->  D1  (Pin 10)
+PA5 (A2)  <-------->  D2  (Pin 11)
+PA4 (A3)  <-------->  D3  (Pin 12)
+PA3 (A4)  <-------->  D4  (Pin 13)
+PA2 (A5)  <-------->  D5  (Pin 14)
+PA1 (A6)  <-------->  D6  (Pin 15)
+PA0 (A7)  <-------->  D7  (Pin 16)
+
+PC0 (D37) <-------->  A0  (Pin 19)
+...                  ...
+PC7 (D30) <-------->  A7  (Pin 26)
+PL0 (D49) <-------->  A8  (Pin 27)
+...                  ...
+PL7 (D42) <-------->  A15 (Pin 34)
+
+PD2 (D19) ----> RESET     (Pin 40)
+PD3 (D18) <---- R/W       (Pin 34)
+PD4 (D38) ----> IRQ       (Pin 4)
+PD5 (D39) ----> NMI       (Pin 6)
+PD6 (D40) <---- SYNC      (Pin 7)
+PD7 (D41) ----> CLOCK     (Pin 3)
+
+GND ----------> Vss       (Pins 1, possibly others)
++5V ----------> Vcc       (Pins 40, possibly others)
+```
 
 ## Key Features
 
